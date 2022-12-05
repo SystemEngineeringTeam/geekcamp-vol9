@@ -71,10 +71,10 @@ export const App = () => {
         "A_": 9,
         "Bb": 10,
         "B_": 11, //全12個
-    }; 
+    };
 
     //play関数リスト
-    const playFuncs = [
+    const PlayFuncs = [
         () => playC3(),
         () => playDb3(),
         () => playD3(),
@@ -101,7 +101,7 @@ export const App = () => {
         () => playB4(), //全24音
     ];
     //stop関数リスト
-    const stopFuncs = [
+    const StopFuncs = [
         () => stopC3(),
         () => stopDb3(),
         () => stopD3(),
@@ -127,7 +127,7 @@ export const App = () => {
         () => stopBb4(),
         () => stopB4(), //全24音
     ];
-    const chords = { //ルートにそれぞれたす数？ //数字はルートからの半音の距離
+    const Chords = { //数字はルートからの半音の距離
             "": [0, 4, 7], //C
             "7": [0, 4, 7, 10], //C7
             "7sus4": [0, 5, 7, 10], //C7sus4
@@ -155,34 +155,27 @@ export const App = () => {
         setMemoChord([...memoChord, newChord]);
         
     }
-    //関数： コードリストを取得する
-    const getnoteList = (chord) => { //コードの配列を返す
+    //関数： ノートリストを返す
+    const getnoteList = (chord) => { 
         console.log(`getnoteList${chord}実行\n`);
-        const root = chord.slice(0, 2); //先頭2文字のみ C もしかしたら_Cとかになるかも
-        const structure = chord.slice(2); //先頭2文字以外 7sus4
+        const root = chord.slice(0, 2); //先頭2文字のみ
+        const structure = chord.slice(2); //先頭2文字以外
         
-        //移動できない？？
-        
-        
-        const noteList = chords[structure];
-        console.log("配列！！"+chords[structure]);
-        console.log("ああ"+chords[""]);
-
+        const noteList = [...Chords[structure]]; //Chordsを元に配列を新しく生成
         for (let i = 0; i < noteList.length; i++) {
             noteList[i] += roots[root];
-            console.log(`${i}回目${noteList}`);
         }
-        const noteList2 = noteList;
-        return noteList2;
+        
+        return noteList;
     };
     
     //関数: 引数でプレイするコードを選ぶ
     const play = (chord) => {
+        console.log(`play${chord}実行`);
         const noteList = getnoteList(chord); //C[0, 4, 7]
         
-        
         for (let i = 0; i < noteList.length; i++) {
-            playFuncs[noteList[i]]();
+            PlayFuncs[noteList[i]]();
         }
     };
     //関数: 引数でストップするコードを選ぶ
@@ -190,9 +183,8 @@ export const App = () => {
         console.log(`stop${chord}実行`);
         const noteList = getnoteList(chord); //C[0, 4, 7]
         
-        
         for (let i = 0; i < noteList.length; i++) {
-            stopFuncs[noteList[i]]();
+            StopFuncs[noteList[i]]();
         }
     };
     //関数: スリープ(意味不なのでコピペ) //await _sleep(2000);
