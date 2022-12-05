@@ -71,7 +71,7 @@ export const App = () => {
         "A_": 9,
         "Bb": 10,
         "B_": 11, //全12個
-    };
+    }; 
 
     //play関数リスト
     const playFuncs = [
