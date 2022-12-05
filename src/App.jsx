@@ -59,18 +59,23 @@ export const App = () => {
 
     //ルートリスト
     const roots = {
-        "C_": 0,
+        "C": 0,
+        "C#": 1,
         "Db": 1,
-        "D_": 2,
+        "D": 2,
+        "D#": 3,
         "Eb": 3,
-        "E_": 4,
-        "F_": 5,
+        "E": 4,
+        "F": 5,
+        "F#": 6,
         "Gb": 6,
-        "G_": 7,
+        "G": 7,
+        "G#": 8,
         "Ab": 8,
-        "A_": 9,
+        "A": 9,
+        "A#": 10,
         "Bb": 10,
-        "B_": 11, //全12個
+        "B": 11, //全12個
     };
 
     //play関数リスト
@@ -138,7 +143,7 @@ export const App = () => {
             "m6": [0, 3, 7, 9], //Cm6
             "M7": [0, 4, 7, 11], //CM7
             "sus4": [0, 5, 7], //Csys4
-            "dim": [0, 3, 6, 9], //Cdim7
+            "dim7": [0, 3, 6, 9], //Cdim7
             "aug": [0, 4, 8], //Caug
             "add9": [0, 4, 7, 14], //Cadd9 あってる？？？
             "6": [0, 4, 7, 9], //C6
@@ -158,9 +163,16 @@ export const App = () => {
     //関数： ノートリストを返す
     const getnoteList = (chord) => { 
         console.log(`getnoteList${chord}実行\n`);
-        const root = chord.slice(0, 2); //先頭2文字のみ
-        const structure = chord.slice(2); //先頭2文字以外
+        let root = chord.slice(0, 2); //先頭2文字
+        let structure = chord.slice(1); //先頭以外
+        if (root.slice(-1) === "#" || root.slice(-1) === "b") {
+            structure = structure.slice(1); //先頭以外(余分カット)
+        } else {
+            root = root.slice(0, 1); //先頭のみ(余分カット)
+        }
         
+        console.log("ルート: " + root);
+        console.log("構成: " + structure);
         const noteList = [...Chords[structure]]; //Chordsを元に配列を新しく生成
         for (let i = 0; i < noteList.length; i++) {
             noteList[i] += roots[root];
@@ -211,37 +223,42 @@ export const App = () => {
         <>
             <h1>ChordFinding</h1>
             
-            <button onMouseEnter={() => play("C_")} onMouseLeave={() => stop("C_")} onClick={() => addChord("C_")}>
+            <button onMouseEnter={() => play("C")} onMouseLeave={() => stop("C")} onClick={() => addChord("C")}>
                 C
             </button>
-            <button onMouseEnter={() => play("G_")} onMouseLeave={() => stop("G_")} onClick={() => addChord("G_")}>
+            <button onMouseEnter={() => play("G")} onMouseLeave={() => stop("G")} onClick={() => addChord("G")}>
                 G
             </button>
-            <button onMouseEnter={() => play("A_m")} onMouseLeave={() => stop("A_m")} onClick={() => addChord("A_m")}>
+            <button onMouseEnter={() => play("Am")} onMouseLeave={() => stop("Am")} onClick={() => addChord("Am")}>
                 Am
             </button>
-            <button onMouseEnter={() => play("E_m")} onMouseLeave={() => stop("E_m")} onClick={() => addChord("E_m")}>
+            <button onMouseEnter={() => play("Em")} onMouseLeave={() => stop("Em")} onClick={() => addChord("Em")}>
                 Em
             </button>
-            <button onMouseEnter={() => play("F_")} onMouseLeave={() => stop("F_")} onClick={() => addChord("F_")}>
+            <button onMouseEnter={() => play("F")} onMouseLeave={() => stop("F")} onClick={() => addChord("F")}>
                 F
             </button>
-            <button onMouseEnter={() => play("C_")} onMouseLeave={() => stop("C_")} onClick={() => addChord("C_")}>
+            <button onMouseEnter={() => play("C")} onMouseLeave={() => stop("C")} onClick={() => addChord("C")}>
                 C
             </button>
-            <button onMouseEnter={() => play("F_")} onMouseLeave={() => stop("F_")} onClick={() => addChord("F_")}>
+            <button onMouseEnter={() => play("F")} onMouseLeave={() => stop("F")} onClick={() => addChord("F")}>
                 F
             </button>
-            <button onMouseEnter={() => play("G_")} onMouseLeave={() => stop("G_")} onClick={() => addChord("G_")}>
+            <button onMouseEnter={() => play("G")} onMouseLeave={() => stop("G")} onClick={() => addChord("G")}>
                 G
             </button>
-            <button onMouseEnter={() => play("D_m7")} onMouseLeave={() => stop("D_m7")} onClick={() => addChord("D_m7")}>
-                D_m7
+            <button onMouseEnter={() => play("D#dim7")} onMouseLeave={() => stop("D#dim7")} onClick={() => addChord("D#dim7")}>
+                D#dim7
             </button>
-            <button onMouseEnter={() => play("C_mM7")} onMouseLeave={() => stop("C_add9")} onClick={() => addChord("C_add9")}>
-                C_add9
+            <button onMouseEnter={() => play("GbmM7")} onMouseLeave={() => stop("GbmM7")} onClick={() => addChord("GbmM7")}>
+                GbmM7
             </button>
-            
+            <button onMouseEnter={() => play("C#m7-5")} onMouseLeave={() => stop("C#m7-5")} onClick={() => addChord("C#m7-5")}>
+                C#m7-5
+            </button>
+            <button onMouseEnter={() => play("Dbsus4")} onMouseLeave={() => stop("Dbsus4")} onClick={() => addChord("Dbsus4")}>
+                Dbsus4
+            </button>
             <MemoChord memoChord={memoChord} />
             <button onClick={playBack}>再生</button>
             <button onClick={resetMemoChord}>リセット</button>
